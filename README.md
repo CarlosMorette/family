@@ -38,7 +38,7 @@ To start your Phoenix server:
   ```
 
 ## Next steps
-[ ] Controllers authentication
-[ ] Implement password field on user table
-[ ] Add tests on the controller
-[ ] Add tests on the functions
+* Controllers authentication
+* Implement password field on user table
+* Add tests on the controller
+* Add tests on the functions

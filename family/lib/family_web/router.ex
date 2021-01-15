@@ -14,9 +14,12 @@ defmodule FamilyWeb.Router do
   end
 
   scope "/", FamilyWeb do
-    pipe_through :browser
+    pipe_through :api
 
     get "/users", UsersController, :show
+    post "/users", UsersController, :create
+    put "/users", UsersController, :edit
+    delete "/users", UsersController, :delete
   end
 
   # Other scopes may use custom stacks.

@@ -3,10 +3,10 @@ defmodule Family.Schemas.Users do
   import Ecto.Changeset
 
   schema "users" do
-    # field :user_id, Ecto.UUID, autogenerate: true
     field :name, :string
     field :email, :string
     field :age, :integer
+    field :password, :string
 
     timestamps()
   end

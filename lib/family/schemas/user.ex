@@ -1,4 +1,4 @@
-defmodule Family.Schemas.Users do
+defmodule Family.Schemas.User do
   use Ecto.Schema
   import Ecto.Changeset
 

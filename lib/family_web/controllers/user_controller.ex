@@ -1,10 +1,13 @@
 defmodule FamilyWeb.UserController do
   use FamilyWeb, :controller
+
   alias FamilyWeb.UserRepository
   alias FamilyWeb.SchemaValidation.CreateUser
   alias FamilyWeb.SchemaValidation.EditUser
   alias FamilyWeb.SchemaValidation.DeleteUser
-  import FamilyWeb.ControllerUtils
+  alias FamilyWeb.Errors
+
+  import FamilyWeb.Utils.Controller
 
   defp verify_params(module, body) do
     case module.validate(body) do
@@ -21,12 +24,12 @@ defmodule FamilyWeb.UserController do
     case verify_params(CreateUser, conn.body_params) do
       {:ok, body} ->
         case UserRepository.create_user(body) do
-          {:ok, _} -> send_success(conn)
-          _ -> send_error(conn, :internal_error)
+          {:created} -> success(conn)
+          {:error} -> Errors.internal_error(conn)
         end
 
       :invalid ->
-        send_error(conn, :bad_request)
+        Errors.bad_request(conn, "invalid payload")
     end
   end
 
@@ -35,16 +38,15 @@ defmodule FamilyWeb.UserController do
 
     case verify_params(EditUser, body) do
       {:ok, body} ->
-        case UserRepository.edit_user(body["id"], %{
-               email: body["email"],
-               password: body["password"]
-             }) do
-          {1, _} -> send_success(conn)
-          _ -> send_error(conn, :internal_error)
+        data = %{email: body["email"], password: body["password"]}
+
+        case UserRepository.edit_user(body["id"], data) do
+          {:updated} -> success(conn)
+          {:error} -> Errors.internal_error(conn)
         end
 
       :invalid ->
-        send_error(conn, :bad_request)
+        Errors.bad_request(conn, "invalid payload")
     end
   end
 
@@ -53,13 +55,15 @@ defmodule FamilyWeb.UserController do
 
     case verify_params(DeleteUser, body) do
       {:ok, body} ->
-        case UserRepository.delete_user(body["id"]) do
-          {1, _} -> send_success(conn)
-          _ -> send_error(conn, :internal_error)
+        id = body["id"]
+
+        case UserRepository.delete_user(id) do
+          {:deleted} -> success(conn)
+          {:error} -> Errors.internal_error(conn)
         end
 
       :invalid ->
-        send_error(conn, :bad_request)
+        Errors.bad_request(conn, "invalid payload")
     end
   end
 end

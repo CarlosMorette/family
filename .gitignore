@@ -1,2 +1,5 @@
 deps
 _build
+.env
+.elixir_ls
+mix.lock

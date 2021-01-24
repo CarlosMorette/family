@@ -1,5 +1,6 @@
 defmodule FamilyWeb.Router do
   use FamilyWeb, :router
+  alias FamilyWeb.Plugs.BasicAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +12,7 @@ defmodule FamilyWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug BasicAuth
   end
 
   scope "/", FamilyWeb do

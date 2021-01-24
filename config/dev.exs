@@ -1,10 +1,11 @@
 use Mix.Config
+alias Family.Env
 
 # Configure your database
 config :family, Family.Repo,
   username: "postgres",
   password: "postgres",
-  database: "ecto_simple",
+  database: "family_database",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

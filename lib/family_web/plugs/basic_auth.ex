@@ -16,8 +16,6 @@ defmodule FamilyWeb.Plugs.BasicAuth do
   end
 
   def get_credentials_in_env([name, password]) do
-    Env.get_user()
-
     case Env.get_user() === name and Env.get_password() === password do
       true -> {:ok, %{name: name, password: password}}
       false -> {:invalid_user}
